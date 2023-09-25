@@ -1,4 +1,4 @@
-const homeRoutes = require();
+const homeRoutes = require('./home');
 
 module.exports = {
     homeRoutes
