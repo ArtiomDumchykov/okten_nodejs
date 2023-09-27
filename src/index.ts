@@ -1,20 +1,12 @@
-// const fs = require("node:fs/promises")
-// const path = require("node:path");
-// const bodyParser = require('body-parser'); 
-
-// const express = require("express")
-
-// const {  homeRoutes } = require("./routes");
-
 // import * as fs from 'node:fs/promises';
 // import * as path from 'node:path';
 
 import express from 'express';
+import * as mongoose from 'mongoose';
 import * as bodyParser  from 'body-parser';
 
-import  {homeRoutes}  from './routes';
-
-const PORT = 8080;
+import { configs } from './config';
+import  { homeRoutes }  from './routes';
 
 const app = express();
 
@@ -26,9 +18,21 @@ app.use(textParser);
 
 app.use(express.urlencoded({extended: true}));
 
-app.use('/', homeRoutes)
+app.use('/', homeRoutes);
 
-app.listen(PORT, () => {
-    console.log('Server is runnig...', PORT)
-})
 
+async function connection() {
+    try {
+        console.log("Connection Mongo")
+        await mongoose.connect(configs.mongo.DB_URI);
+
+        app.listen(configs.PORT, () => {
+            console.log('Server is runnig...', configs.PORT);
+        })
+    } catch (error) {
+        const err = error as Error;
+        console.log(err);
+    }
+}
+
+connection();
