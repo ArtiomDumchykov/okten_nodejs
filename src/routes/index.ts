@@ -3,3 +3,5 @@
 // module.exports = {
 //     homeRoutes
 // }
+
+export * from './home';
