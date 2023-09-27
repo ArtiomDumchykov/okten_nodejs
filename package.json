@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "rimraf dist && tsc-watch --onSuccess \"npm run watch:server\"",
-    "watch:server": "nodemon \"src/app.ts\" --watch \"./src\""
+    "watch:server": "nodemon \"src/index.ts\" --watch \"./src\""
   },
   "author": "",
   "license": "ISC",

@@ -6,7 +6,9 @@ import * as mongoose from 'mongoose';
 import * as bodyParser  from 'body-parser';
 
 import { configs } from './config';
-import  { homeRoutes }  from './routes';
+import  { homeRoutes, userRouter }  from './routes';
+import { Request, Response, NextFunction } from 'express';
+import { IError } from './types';
 
 const app = express();
 
@@ -19,7 +21,14 @@ app.use(textParser);
 app.use(express.urlencoded({extended: true}));
 
 app.use('/', homeRoutes);
+app.use('/users', userRouter)
 
+
+app.use((error: IError, req: Request, res: Response, next: NextFunction): void => {
+    const status = error?.status || 500;
+    
+    res.status(status).json(error.message)
+}) 
 
 async function connection() {
     try {
