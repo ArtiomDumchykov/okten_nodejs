@@ -2,6 +2,7 @@
 // import * as path from 'node:path';
 
 import express from 'express';
+import cors from 'cors'
 import * as mongoose from 'mongoose';
 import * as bodyParser  from 'body-parser';
 
@@ -9,6 +10,8 @@ import { configs } from './config';
 import  { homeRoutes }  from './routes';
 
 const app = express();
+
+app.use(cors());
 
 const jsonParser = bodyParser.json();
 const textParser = bodyParser.text(); 
@@ -19,7 +22,6 @@ app.use(textParser);
 app.use(express.urlencoded({extended: true}));
 
 app.use('/', homeRoutes);
-
 
 async function connection() {
     try {
