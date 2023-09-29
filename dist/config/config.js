@@ -6,6 +6,6 @@ const dotenv_1 = require("dotenv");
 exports.configs = {
     PORT: process.env.PORT || 8080,
     mongo: {
-        DB_URI: process.env.DB_URI || "mongodb://localhost:27017/okten"
+        DB_URI: process.env.DB_URI || "mongodb://localhost:27017/march-2023"
     }
 };

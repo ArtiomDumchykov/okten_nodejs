@@ -2,7 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRouter = void 0;
 const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
 const controllers_1 = require("../controllers");
+const validators_1 = require("../validators");
 const router = (0, express_1.Router)();
 router.get('/', controllers_1.userController.getAll);
+router.post('/', middlewares_1.commonMiddleware.isBodyValid(validators_1.UserValidator.create), controllers_1.userController.createUser);
+router.get('/:userId', middlewares_1.commonMiddleware.isIdValid("userId"), middlewares_1.userMiddleware.getByIdOrThrow, controllers_1.userController.getById);
+router.delete('/:userId', middlewares_1.commonMiddleware.isIdValid("userId"), middlewares_1.userMiddleware.getByIdOrThrow, controllers_1.userController.deleteUser);
+router.put('/:userId', middlewares_1.commonMiddleware.isIdValid("userId"), middlewares_1.userMiddleware.getByIdOrThrow, middlewares_1.commonMiddleware.isBodyValid(validators_1.UserValidator.update), controllers_1.userController.updateUser);
 exports.userRouter = router;

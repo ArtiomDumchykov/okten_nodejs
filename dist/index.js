@@ -27,11 +27,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const mongoose = __importStar(require("mongoose"));
 const bodyParser = __importStar(require("body-parser"));
 const config_1 = require("./config");
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 const jsonParser = bodyParser.json();
 const textParser = bodyParser.text();
 app.use(jsonParser);
@@ -39,6 +41,10 @@ app.use(textParser);
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/', routes_1.homeRoutes);
 app.use('/users', routes_1.userRouter);
+app.use((error, req, res, next) => {
+    const status = error?.status || 500;
+    res.status(status).json(error.message);
+});
 async function connection() {
     try {
         console.log("Connection Mongo");

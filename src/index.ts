@@ -2,6 +2,7 @@
 // import * as path from 'node:path';
 
 import express from 'express';
+import cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as bodyParser  from 'body-parser';
 
@@ -11,6 +12,8 @@ import { Request, Response, NextFunction } from 'express';
 import { IError } from './types';
 
 const app = express();
+
+app.use(cors())
 
 const jsonParser = bodyParser.json();
 const textParser = bodyParser.text(); 
@@ -22,7 +25,6 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/', homeRoutes);
 app.use('/users', userRouter)
-
 
 app.use((error: IError, req: Request, res: Response, next: NextFunction): void => {
     const status = error?.status || 500;
