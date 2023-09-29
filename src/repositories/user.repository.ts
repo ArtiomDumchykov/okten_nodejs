@@ -17,10 +17,7 @@ class UserRepository {
     }
 
     public async createUser(dto: IUser): Promise<IUser> {
-        // return await User.create(dto) 
-        return await User.create(dto) as IUser;
-        // const user = await User.create(dto);
-        // return user.toObject() as IUser;
+        return await User.create(dto) 
     }
 
     public async deleteUser(userId: string): Promise<void> {
