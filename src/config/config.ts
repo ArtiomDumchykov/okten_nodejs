@@ -5,6 +5,6 @@ config();
 export const configs = {
     PORT: process.env.PORT || 8080,
     mongo: {
-        DB_URI: process.env.DB_URI || "mongodb://localhost:27017/march-2023"
+        DB_URI: process.env.DB_URI || "mongodb://localhost:27017/okten"
     }
 }
