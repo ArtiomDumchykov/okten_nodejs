@@ -48,7 +48,7 @@ class CarController {
 
     public async deleteCar(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            await carController.deleteCar(req.params.carsId)
+            await carService.deleteCar(req.params.carsId)
 
             res.sendStatus(204);
         } catch (error) {
