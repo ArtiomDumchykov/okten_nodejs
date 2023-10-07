@@ -1,14 +1,13 @@
 // import * as fs from 'node:fs/promises';
 // import * as path from 'node:path';
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as bodyParser  from 'body-parser';
 
 import { configs } from './config';
-import { carRouter, homeRoutes, userRouter }  from './routes';
-import { Request, Response, NextFunction } from 'express';
+import { authRouter, carRouter, homeRoutes, userRouter }  from './routes';
 import { IError } from './types';
 
 const app = express();
@@ -23,14 +22,19 @@ app.use(textParser);
 
 app.use(express.urlencoded({extended: true}));
 
+
 app.use('/', homeRoutes);
 app.use('/users', userRouter)
 app.use('/cars', carRouter)
+app.use('/auth', authRouter)
 
 app.use((error: IError, req: Request, res: Response, next: NextFunction): void => {
     const status = error?.status || 500;
     
-    res.status(status).json(error.message)
+    res.status(status).json({
+        message: error.message,
+        status: error.status
+    })
 }) 
 
 async function connection() {

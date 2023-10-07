@@ -8,18 +8,17 @@ const router = Router();
 
 router.get('/', userController.getAll);
 
-router.post(
-    '/', 
-    commonMiddleware.isBodyValid(UserValidator.create),
-    userController.createUser,
-)
+// router.post(
+//     '/', 
+//     commonMiddleware.isBodyValid(UserValidator.register),
+//     userController.createUser,
+// )
 
 router.get(
     '/:userId',
     commonMiddleware.isIdValid("userId"),
     userMiddleware.getByIdOrThrow,
     userController.getById,
-
 )
 
 router.delete(
@@ -27,7 +26,6 @@ router.delete(
     commonMiddleware.isIdValid("userId"),
     userMiddleware.getByIdOrThrow,
     userController.deleteUser,
-
 )
 
 router.put(

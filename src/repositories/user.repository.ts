@@ -1,6 +1,6 @@
 import { FilterQuery } from "mongoose";
 
-import { IUser } from "../types";
+import { IUser, IUserCredentials } from "../types";
 import { User } from "../models";
 
 class UserRepository {
@@ -16,8 +16,12 @@ class UserRepository {
         return await User.findOne(params);
     }
 
-    public async createUser(dto: IUser): Promise<IUser> {
-        return await User.create(dto) 
+    // public async createUser(dto: IUser): Promise<IUser> {
+    //     return await User.create(dto) 
+    // }
+
+    public async register(dto: IUserCredentials): Promise<IUser> {
+        return await User.create(dto)
     }
 
     public async deleteUser(userId: string): Promise<void> {
