@@ -18,3 +18,4 @@ export interface IToken extends Document {
     _userId: Types.ObjectId | IUser
 }
 
+export type ITokenType = 'access' | 'refresh';

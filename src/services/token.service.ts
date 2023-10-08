@@ -1,7 +1,8 @@
 import * as jwt from "jsonwebtoken";
 
-import { ITokenPayload, ITokensPair } from "../types";
+import { ITokenPayload, ITokenType, ITokensPair } from "../types";
 import { configs } from "../config";
+import { ApiError } from "../errors";
 
 class TokenService {
     public generateTokenPair(payload: ITokenPayload): ITokensPair {
@@ -15,6 +16,29 @@ class TokenService {
         return {
             accessToken,
             refreshToken,
+        }
+    }
+
+    public checkToken(token: string, type: ITokenType): ITokenPayload | void {
+    // public checkToken(token: string, type: "access" | "refresh"): ITokenPayload | void {
+        try {
+            const _type = {
+                'access': {
+                    secret: configs.jwt.JWT_ACCESS_SECRET
+                },
+                'refresh': {
+                    secret: configs.jwt.JWT_REFRESH_SECRET
+                },
+            }
+
+            if (!_type[type]) {
+                throw new Error('Invalid token type');
+            }
+
+            return jwt.verify(token, _type[type].secret) as ITokenPayload
+
+        } catch (error) {
+            throw new ApiError('Token not valid!', 401)
         }
     }
 }

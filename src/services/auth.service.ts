@@ -1,4 +1,4 @@
-import { IError, ITokensPair, IUserCredentials } from "../types";
+import { IError, ITokenPayload, ITokensPair, IUserCredentials } from "../types";
 import { ApiError } from "../errors";
 import { tokenRepository, userRepository } from "../repositories";
 import { passwordService } from "./password.service";
@@ -59,6 +59,23 @@ class AuthService {
         }
     }
 
+    public async refresh(payload: ITokenPayload, refreshToken: string): Promise<ITokensPair | void> {
+        try {
+            const tokensPair = tokenService.generateTokenPair({
+                userId: payload.userId,
+                name: payload.name
+            })
+
+            await Promise.all([
+                tokenRepository.create({ ...tokensPair, _userId: payload.userId}),
+                tokenRepository.deleteOne({ refreshToken })
+            ])
+            return tokensPair
+        } catch (error) {
+            const err = error as IError
+            throw new ApiError(err.message, err.status)
+        }
+    }
 
 }
 
