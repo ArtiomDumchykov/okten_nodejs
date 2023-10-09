@@ -27,11 +27,12 @@ const userSchema = new Schema(
             type: String,
             require: true,
         }
-    }, {
+    },
+    {
         timestamps: true,
         versionKey: false
     }
 )
 
 
-export const User = model<IUser>("user", userSchema)
+export const User = model<IUser>("user", userSchema);

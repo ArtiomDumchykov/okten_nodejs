@@ -16,13 +16,13 @@ router.post(
 router.post(
     '/login',
     commonMiddleware.isBodyValid(UserValidator.login),
-    authController.login
+    authController.login,
 )
 
 router.post(
     '/refresh',
     authMiddleware.checkRefreshToken,
-    authController.refresh
+    authController.refresh,
 )
 
 

@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import { carRepository } from "../repositories";
-import { ApiError } from "../errors";
+import { ApiError } from '../errors';
+import { carRepository } from '../repositories';
 
 class CarMiddleware {
     public async getByIdorThrow(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +11,7 @@ class CarMiddleware {
             const car = await carRepository.findById(carsId);
 
             if (!car) {
-                throw new ApiError("Car not found", 404);
+                throw new ApiError('Car not found', 404);
             }
 
             req.res && (req.res.locals = car);

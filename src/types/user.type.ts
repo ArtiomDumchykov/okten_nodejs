@@ -1,7 +1,6 @@
 import { Document } from "mongoose";
 
 // import { EGenders } from "../enums";
-
 export interface IUser extends Document {
     name: string;
     age?: number;
@@ -9,6 +8,5 @@ export interface IUser extends Document {
     email: string;
     password: string;
 }
-
 
 export type IUserCredentials = Pick<IUser, "email" | "password">

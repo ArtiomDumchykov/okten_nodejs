@@ -20,7 +20,6 @@ class TokenService {
     }
 
     public checkToken(token: string, type: ITokenType): ITokenPayload | void {
-    // public checkToken(token: string, type: "access" | "refresh"): ITokenPayload | void {
         try {
             const _type = {
                 'access': {
@@ -38,7 +37,7 @@ class TokenService {
             return jwt.verify(token, _type[type].secret) as ITokenPayload
 
         } catch (error) {
-            throw new ApiError('Token not valid!', 401)
+            throw new ApiError('Token not valid!', 401);
         }
     }
 }

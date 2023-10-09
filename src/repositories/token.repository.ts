@@ -1,6 +1,7 @@
+import { FilterQuery } from "mongoose";
+
 import { IToken } from "../types";
 import { Token } from "../models";
-import { FilterQuery } from "mongoose";
 
 class TokenRepository {
     public async create(dto: Partial<IToken>): Promise<IToken> {

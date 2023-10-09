@@ -1,5 +1,5 @@
-import { ICar } from "../types";
-import { Car } from "../models";
+import { ICar } from '../types';
+import { Car } from '../models';
 
 class CarRepository {
     public async getAll(): Promise<ICar[]> {
@@ -16,7 +16,7 @@ class CarRepository {
 
     public async updateCar(carsId: string, dto: ICar): Promise<ICar | null> {
         return await Car.findByIdAndUpdate(carsId, dto, {
-            returnDocument: "after",
+            returnDocument: 'after',
         })
     }
 

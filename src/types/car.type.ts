@@ -1,5 +1,4 @@
 import { Document } from "mongoose";
-
 export interface ICar extends Document {
     year?: number;
     model?: string;

@@ -21,7 +21,7 @@ const carSchema = new Schema(
             min: [0, "Minimum price is 0"],
             max: [100_000_000, "Maximum price is 100_000_000"],
         },
-    }, 
+    },
     {
         timestamps: true,
         versionKey: false,

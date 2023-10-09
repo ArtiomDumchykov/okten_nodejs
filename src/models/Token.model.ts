@@ -1,4 +1,4 @@
-import { Schema, Types, model} from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 import { User } from "./User.model";
 import { IToken } from "../types";
@@ -12,13 +12,14 @@ const tokenschema = new Schema(
         refreshToken: {
             type: String,
             required: true,
-        }, 
+        },
         _userId: {
             type: Types.ObjectId,
             required: true,
             ref: User
         }
-    }, {
+    },
+    {
         timestamps: true,
         versionKey: false,
     }

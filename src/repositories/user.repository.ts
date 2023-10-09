@@ -16,11 +16,11 @@ class UserRepository {
     }
 
     public async register(dto: IUserCredentials): Promise<IUser> {
-        return await User.create(dto)
+        return await User.create(dto);
     }
 
     public async deleteUser(userId: string): Promise<void> {
-        await User.deleteOne({_id: userId})
+        await User.deleteOne({_id: userId});
     }
 
     public async updateUser(userId: string, dto: Partial<IUser>): Promise<IUser | null> {
@@ -30,4 +30,4 @@ class UserRepository {
     }
 }
 
-export const userRepository = new UserRepository()
+export const userRepository = new UserRepository();
