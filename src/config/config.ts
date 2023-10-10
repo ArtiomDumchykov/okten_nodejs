@@ -13,7 +13,7 @@ export const configs = {
         JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh_secret_key',
     },
     emailAuth: {
-        NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'dum4ickov6102@gmail.com',
-        NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || 'piwf vlgj bcee nzus'
+        NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'test@example.com',
+        NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || 'test12345'
     }
 }
