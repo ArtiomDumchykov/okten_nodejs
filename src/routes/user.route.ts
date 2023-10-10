@@ -21,8 +21,8 @@ router.get(
 
 router.delete(
     '/:userId',
-    // authMiddleware.checkAccessToken,
-    authMiddleware.checkAuthToken("access"),
+    authMiddleware.checkAccessToken,
+    // authMiddleware.checkAuthToken("access"),
     commonMiddleware.isIdValid("userId"),
     userMiddleware.getByIdOrThrow,
     userController.deleteUser,
@@ -30,8 +30,8 @@ router.delete(
 
 router.put(
     '/:userId',
-    // authMiddleware.checkAccessToken,
-    authMiddleware.checkAuthToken("access"),
+    authMiddleware.checkAccessToken,
+    // authMiddleware.checkAuthToken("access"),
     commonMiddleware.isIdValid("userId"),
     userMiddleware.getByIdOrThrow,
     commonMiddleware.isBodyValid(UserValidator.update),

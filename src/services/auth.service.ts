@@ -1,8 +1,11 @@
 import { IError, ITokenPayload, ITokensPair, IUserCredentials } from "../types";
+import { EEmailAction } from "../enums";
 import { ApiError } from "../errors";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
 import { tokenRepository, userRepository } from "../repositories";
+import { emailService } from "./email.service";
+
 
 class AuthService {
     public async register(dto: IUserCredentials): Promise<void> {
@@ -10,7 +13,10 @@ class AuthService {
             if (dto.password) {
                 const hashPassword = await passwordService.hash(dto.password);
 
-                await userRepository.register({ ...dto, password: hashPassword });
+                const user = await userRepository.register({ ...dto, password: hashPassword });
+                
+                await emailService.sendMail(dto.email, EEmailAction.REGISTER, {name: user.name})
+
             } else {
                 throw new ApiError("Password is undefined", 404)
             }
@@ -67,6 +73,26 @@ class AuthService {
             throw new ApiError(err.message, err.status);
         }
     }
+
+    public async logout(accessToken: string): Promise<void> {
+        try {
+            await tokenRepository.deleteOne({ accessToken });
+        } catch (error) {
+            const err = error as IError;
+            throw new ApiError(err.message, err.status);
+        }
+    }
+
+    public async logoutAll(userId: string): Promise<void> {
+        try {
+            await tokenRepository.deleteManyByUserId(userId);
+        } catch (error) {
+            const err = error as IError;
+            throw new ApiError(err.message, err.status);
+        }
+    }
+
+
 
 }
 

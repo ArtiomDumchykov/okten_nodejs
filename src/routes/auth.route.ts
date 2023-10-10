@@ -21,9 +21,20 @@ router.post(
 
 router.post(
     '/refresh',
-    // authMiddleware.checkRefreshToken,
-    authMiddleware.checkAuthToken("refresh"),
+    authMiddleware.checkRefreshToken,
+    // authMiddleware.checkAuthToken("refresh"),
     authController.refresh,
+)
+
+router.post(
+    '/logout',
+    authMiddleware.checkAccessToken,
+    authController.logout
+)
+router.post(
+    '/logout-all',
+    authMiddleware.checkAccessToken,
+    authController.logoutAll
 )
 
 
