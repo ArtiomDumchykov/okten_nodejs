@@ -1,25 +1,24 @@
 import { FilterQuery } from "mongoose";
 
-import { IToken } from "../types";
 import { Token } from "../models";
+import { IToken } from "../types";
+
 class TokenRepository {
-    public async create(dto: Partial<IToken>): Promise<IToken> {
-        return await Token.create(dto);
-    }
+  public async create(dto: Partial<IToken>): Promise<IToken> {
+    return await Token.create(dto);
+  }
 
-    public async deleteOne(params: FilterQuery<IToken>): Promise<void> {
-        await Token.deleteOne(params);
-    }
+  public async deleteOne(params: FilterQuery<IToken>): Promise<void> {
+    await Token.deleteOne(params);
+  }
 
-    public async findOne(params: FilterQuery<IToken>): Promise<IToken | null> {
-        return await Token.findOne(params);
-    }
+  public async findOne(params: FilterQuery<IToken>): Promise<IToken | null> {
+    return await Token.findOne(params);
+  }
 
-    public async deleteManyByUserId(userId: string): Promise<void> {
-        await Token.deleteMany({ _userId: userId });
-    }
-
-
+  public async deleteManyByUserId(userId: string): Promise<void> {
+    await Token.deleteMany({ _userId: userId });
+  }
 }
 
-export const tokenRepository = new TokenRepository()
+export const tokenRepository = new TokenRepository();
