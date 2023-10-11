@@ -2,11 +2,11 @@ import { Document } from "mongoose";
 
 // import { EGenders } from "../enums";
 export interface IUser extends Document {
-    name: string;
-    age?: number;
-    genders?: string;
-    email: string;
-    password: string;
+  name: string;
+  age?: number;
+  genders?: string;
+  email: string;
+  password: string;
 }
 
-export type IUserCredentials = Pick<IUser, "email" | "password">
+export type IUserCredentials = Pick<IUser, "email" | "password">;

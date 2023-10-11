@@ -1,38 +1,39 @@
 import { Router } from "express";
 
-import { authMiddleware, commonMiddleware, userMiddleware } from "../middlewares";
 import { userController } from "../controllers";
+import {
+  authMiddleware,
+  commonMiddleware,
+  userMiddleware,
+} from "../middlewares";
 import { UserValidator } from "../validators";
 
 const router = Router();
 
+router.get("/", userController.getAll);
+
 router.get(
-    '/',
-    userController.getAll,
+  "/:userId",
+  commonMiddleware.isIdValid("userId"),
+  userMiddleware.getByIdOrThrow,
+  userController.getById,
 );
 
-router.get(
-    '/:userId',
-    commonMiddleware.isIdValid("userId"),
-    userMiddleware.getByIdOrThrow,
-    userController.getById,
-)
-
 router.delete(
-    '/:userId',
-    authMiddleware.checkAccessToken,
-    commonMiddleware.isIdValid("userId"),
-    userMiddleware.getByIdOrThrow,
-    userController.deleteUser,
-)
+  "/:userId",
+  authMiddleware.checkAccessToken,
+  commonMiddleware.isIdValid("userId"),
+  userMiddleware.getByIdOrThrow,
+  userController.deleteUser,
+);
 
 router.put(
-    '/:userId',
-    authMiddleware.checkAccessToken,
-    commonMiddleware.isIdValid("userId"),
-    userMiddleware.getByIdOrThrow,
-    commonMiddleware.isBodyValid(UserValidator.update),
-    userController.updateUser,
-)
+  "/:userId",
+  authMiddleware.checkAccessToken,
+  commonMiddleware.isIdValid("userId"),
+  userMiddleware.getByIdOrThrow,
+  commonMiddleware.isBodyValid(UserValidator.update),
+  userController.updateUser,
+);
 
 export const userRouter = router;

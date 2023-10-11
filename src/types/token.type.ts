@@ -1,19 +1,19 @@
-import { Document, Types } from 'mongoose';
+import { Document, Types } from "mongoose";
 
-import { IUser } from './user.type';
+import { IUser } from "./user.type";
 
 export interface ITokensPair {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 export interface ITokenPayload {
-    userId: Types.ObjectId;
-    name: string
+  userId: Types.ObjectId;
+  name: string;
 }
 export interface IToken extends Document {
-    accessToken: string
-    refreshToken: string
-    _userId: Types.ObjectId | IUser
+  accessToken: string;
+  refreshToken: string;
+  _userId: Types.ObjectId | IUser;
 }
 
-export type ITokenType = 'access' | 'refresh';
+export type ITokenType = "access" | "refresh";
