@@ -38,4 +38,16 @@ router.post(
 )
 
 
+router.post(
+    '/activate',
+    authMiddleware.checkAccessToken,
+    authController.sendActivationToken,
+)
+
+router.put(
+    '/activate',
+    authController.activate
+)
+
+
 export const authRouter = router

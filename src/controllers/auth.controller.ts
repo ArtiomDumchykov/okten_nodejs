@@ -62,6 +62,32 @@ class AuthController {
         }
     }
 
+    public async activate(req: Request, res: Response, next: NextFunction): Promise<Response<void> | void> {
+        try {
+            const actionToken = req.query.actionToken as string
+            await authService.activate(actionToken)
+
+            return res.sendStatus(204)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public async sendActivationToken(req: Request, res: Response, next: NextFunction): Promise<Response<void> | void> {
+        try {
+            
+            const tokenPayload: ITokenPayload = req.res?.locals.tokenPayload;
+
+            await authService.sendActivationToken(tokenPayload)
+
+            return res.sendStatus(204)
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
+
 
 }
 
