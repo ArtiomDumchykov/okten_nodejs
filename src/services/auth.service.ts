@@ -30,10 +30,13 @@ class AuthService {
         password: hashPassword,
       });
 
-      const actionToken = tokenService.generateActionToken({
-        userId: user._id,
-        name: user.name,
-      });
+      const actionToken = tokenService.generateActionToken(
+        {
+          userId: user._id,
+          name: user.name,
+        },
+        EActionTokenType.activate,
+      );
 
       await actionTokenRepository.create({
         token: actionToken,
@@ -124,7 +127,10 @@ class AuthService {
 
   public async activate(token: string): Promise<void> {
     try {
-      const payload = tokenService.checkActionToken(token);
+      const payload = tokenService.checkActionToken(
+        token,
+        EActionTokenType.activate,
+      );
       const entity = await actionTokenRepository.findOne({ token });
 
       if (!entity) {
@@ -151,10 +157,13 @@ class AuthService {
       if (user?.status !== EUserStatus.inactive) {
         throw new ApiError("User can't be activated", 403);
       }
-      const actionToken = tokenService.generateActionToken({
-        userId: payload.userId,
-        name: payload.name,
-      });
+      const actionToken = tokenService.generateActionToken(
+        {
+          userId: payload.userId,
+          name: payload.name,
+        },
+        EActionTokenType.activate,
+      );
 
       actionTokenRepository.create({
         token: actionToken,
@@ -165,6 +174,63 @@ class AuthService {
           name: user.name,
           actionToken,
         });
+    } catch (error) {
+      const err = error as IError;
+      throw new ApiError(err.message, err.status);
+    }
+  }
+
+  public async forgotPassword(user: IUser): Promise<void> {
+    try {
+      const actionToken = tokenService.generateActionToken(
+        {
+          userId: user._id,
+        },
+        EActionTokenType.forgotPassword,
+      );
+
+      await Promise.all([
+        actionTokenRepository.create({
+          token: actionToken,
+          type: EActionTokenType.forgotPassword,
+          _userId: user._id,
+        }),
+        emailService.sendMail(user.email, EEmailAction.FORGOT_PASSWORD, {
+          actionToken,
+        }),
+      ]);
+    } catch (error) {
+      const err = error as IError;
+      throw new ApiError(err.message, err.status);
+    }
+  }
+
+  public async setForgotPassword(
+    actionToken: string,
+    newPassword: string,
+  ): Promise<void> {
+    try {
+      const payload = tokenService.checkActionToken(
+        actionToken,
+        EActionTokenType.forgotPassword,
+      );
+
+      const entity = await actionTokenRepository.findOne({
+        token: actionToken,
+      });
+
+      if (!entity) {
+        throw new ApiError("Not valid token", 400);
+      }
+
+      const newHashedPassword = await passwordService.hash(newPassword);
+
+      await Promise.all([
+        userRepository.updateOneById(payload.userId.toString(), {
+          password: newHashedPassword,
+        }),
+        actionTokenRepository.deleteOne({ token: actionToken }),
+      ]);
     } catch (error) {
       const err = error as IError;
       throw new ApiError(err.message, err.status);

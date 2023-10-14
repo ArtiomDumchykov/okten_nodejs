@@ -15,6 +15,9 @@ export const configs = {
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || "accsess_secret_key",
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || "refresh_secret_key",
     JWT_ACTION_SECRET: process.env.JWT_ACTION_SECRET || "action_secret_key",
+    JWT_FORGOT_SECRET: process.env.JWT_FORGOT_SECRET || "forgot_secret_key",
+    JWT_ACTIVATE_SECRET:
+      process.env.JWT_ACTIVATE_SECRET || "activate_secret_key",
   },
   emailAuth: {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || "test@gmail.com",

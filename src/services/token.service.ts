@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
 
 import { configs } from "../config";
+import { EActionTokenType } from "../enums";
 import { ApiError } from "../errors";
 import { ITokenPayload, ITokensPair, ITokenType } from "../types";
 
@@ -40,17 +41,47 @@ class TokenService {
     }
   }
 
-  public generateActionToken(payload: ITokenPayload): string {
-    return jwt.sign(payload, configs.jwt.JWT_ACTION_SECRET, {
-      expiresIn: "1d",
-    });
+  public generateActionToken(
+    payload: ITokenPayload,
+    type: EActionTokenType,
+  ): string {
+    try {
+      let secret: string;
+
+      switch (type) {
+        case EActionTokenType.forgotPassword:
+          secret = configs.jwt.JWT_FORGOT_SECRET;
+          break;
+        case EActionTokenType.activate:
+          secret = configs.jwt.JWT_ACTIVATE_SECRET;
+          break;
+      }
+
+      return jwt.sign(payload, secret, {
+        expiresIn: "1d",
+      });
+    } catch (error) {}
   }
 
-  public checkActionToken(token: string): ITokenPayload {
+  public checkActionToken(
+    token: string,
+    tokenType: EActionTokenType,
+  ): ITokenPayload {
     try {
-      return jwt.verify(token, configs.jwt.JWT_ACTION_SECRET) as ITokenPayload;
-    } catch (error) {
-      throw new ApiError("Token not valid!!!", 401);
+      let secret: string;
+
+      switch (tokenType) {
+        case EActionTokenType.forgotPassword:
+          secret = configs.jwt.JWT_FORGOT_SECRET;
+          break;
+        case EActionTokenType.activate:
+          secret = configs.jwt.JWT_ACTIVATE_SECRET;
+          break;
+      }
+
+      return jwt.verify(token, secret) as ITokenPayload;
+    } catch (e) {
+      throw new ApiError("Token not valid!", 401);
     }
   }
 }

@@ -3,7 +3,7 @@ import { Document } from "mongoose";
 import { EUserStatus } from "../enums";
 // import { EGenders } from "../enums";
 export interface IUser extends Document {
-  name: string;
+  name?: string;
   age?: number;
   genders?: string;
   email: string;

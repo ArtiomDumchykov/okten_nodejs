@@ -6,6 +6,7 @@ import {
   commonMiddleware,
   userMiddleware,
 } from "../middlewares";
+import { IUser } from "../types";
 import { UserValidator } from "../validators";
 
 const router = Router();
@@ -43,5 +44,18 @@ router.post(
 );
 
 router.put("/activate", authController.activate);
+
+router.post(
+  "/forgot",
+  commonMiddleware.isBodyValid(UserValidator.forgotPassword),
+  userMiddleware.isUserExist<IUser>("email"),
+  authController.forgotPassword,
+);
+
+router.put(
+  "/forgot/:token",
+  commonMiddleware.isBodyValid(UserValidator.setForgotPassword),
+  authController.setForgotPassword,
+);
 
 export const authRouter = router;

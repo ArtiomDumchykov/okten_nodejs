@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 // import mongoose from 'mongoose';
 // import { ObjectSchema } from 'joi';
 import { ApiError } from "../errors";
+import { User } from "../models";
 import { userRepository } from "../repositories";
 
 class UserMiddleware {
@@ -38,6 +39,24 @@ class UserMiddleware {
     } catch (error) {
       next(error);
     }
+  }
+
+  public isUserExist<T>(field: keyof T) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const user = await User.findOne({ [field]: req.body[field] }).lean();
+
+        if (!user) {
+          throw new ApiError("User not found", 404);
+        }
+
+        req.res.locals = user;
+
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
   }
 }
 

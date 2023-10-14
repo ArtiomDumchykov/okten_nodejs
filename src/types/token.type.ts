@@ -9,7 +9,7 @@ export interface ITokensPair {
 }
 export interface ITokenPayload {
   userId: Types.ObjectId;
-  name: string;
+  name?: string;
 }
 export interface IToken extends Document {
   accessToken: string;
