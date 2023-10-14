@@ -197,6 +197,7 @@ class AuthService {
         }),
         emailService.sendMail(user.email, EEmailAction.FORGOT_PASSWORD, {
           actionToken,
+          name: user.name,
         }),
       ]);
     } catch (error) {
