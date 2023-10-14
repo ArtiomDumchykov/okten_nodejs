@@ -1,28 +1,28 @@
-import { Document, Types } from 'mongoose';
+import { Document, Types } from "mongoose";
 
-import { IUser } from './user.type';
-import { EActionTokenType } from '../enums';
+import { EActionTokenType } from "../enums";
+import { IUser } from "./user.type";
 
 export interface ITokensPair {
-    accessToken: string;
-    refreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 export interface ITokenPayload {
-    userId: Types.ObjectId;
-    name: string
+  userId: Types.ObjectId;
+  name: string;
 }
 export interface IToken extends Document {
-    accessToken: string
-    refreshToken: string
-    _userId: Types.ObjectId | IUser
+  accessToken: string;
+  refreshToken: string;
+  _userId: Types.ObjectId | IUser;
 }
 export interface IActionTokenDocument extends Document {
-    token: string;
-    type: EActionTokenType;
-    _userId: Types.ObjectId | IUser
+  token: string;
+  type: EActionTokenType;
+  _userId: Types.ObjectId | IUser;
 }
 
+export type ITokenType = "access" | "refresh";
 
-export type ITokenType = 'access' | 'refresh';
-
-export interface IActionToken extends Pick<IActionTokenDocument, 'token' | 'type' | '_userId'> {}
+export interface IActionToken
+  extends Pick<IActionTokenDocument, "token" | "type" | "_userId"> {}

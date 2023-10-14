@@ -1,2 +1,2 @@
-export * from './user.validator';
-export * from './car.validator';
+export * from "./user.validator";
+export * from "./car.validator";
