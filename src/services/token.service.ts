@@ -55,6 +55,9 @@ class TokenService {
         case EActionTokenType.activate:
           secret = configs.jwt.JWT_ACTIVATE_SECRET;
           break;
+        case EActionTokenType.changedPassword:
+          secret = configs.jwt.JWT_CHANGED_PASS_SECRET;
+          break;
       }
 
       return jwt.sign(payload, secret, {

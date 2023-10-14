@@ -7,6 +7,7 @@ import {
 } from "../repositories";
 import {
   IError,
+  ISetNewPassword,
   ITokenPayload,
   ITokensPair,
   IUser,
@@ -199,9 +200,7 @@ class AuthService {
           actionToken,
           name: user.name,
         }),
-        // this.logoutAll(user._id), // нужна ли эта строка?
       ]);
-      // this.logoutAll(user._id), // или необходимо вызвать это после PromiseAll?
     } catch (error) {
       const err = error as IError;
       throw new ApiError(err.message, err.status);
@@ -233,6 +232,44 @@ class AuthService {
           password: newHashedPassword,
         }),
         actionTokenRepository.deleteOne({ token: actionToken }),
+      ]);
+    } catch (error) {
+      const err = error as IError;
+      throw new ApiError(err.message, err.status);
+    }
+  }
+
+  public async setNewPassword(
+    body: ISetNewPassword,
+    userId: string,
+  ): Promise<void> {
+    try {
+      const user = await userRepository.findById(userId);
+
+      const actionToken = tokenService.generateActionToken(
+        {
+          userId: user._id,
+        },
+        EActionTokenType.changedPassword,
+      );
+
+      const isMatch = await passwordService.compare(
+        body.password,
+        user.password,
+      );
+
+      if (!isMatch) {
+        throw new ApiError("Invalid password", 400);
+      }
+
+      const password = await passwordService.hash(body.newPassword);
+
+      await Promise.all([
+        userRepository.updateOneById(userId, { password }),
+        emailService.sendMail(user.email, EEmailAction.CHANGED_PASSWORD, {
+          actionToken,
+          name: user.name,
+        }),
       ]);
     } catch (error) {
       const err = error as IError;

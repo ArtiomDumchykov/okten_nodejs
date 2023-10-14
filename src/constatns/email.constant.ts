@@ -21,4 +21,8 @@ export const templates: ITemplates = {
     templateName: "forgot-password",
     subject: "Do not worry, we control your password",
   },
+  [EEmailAction.CHANGED_PASSWORD]: {
+    templateName: "chenged-password",
+    subject: "Changed Password",
+  },
 };
