@@ -16,7 +16,7 @@ class UserMiddleware {
         throw new ApiError("user not found", 404);
       }
 
-      req?.res && (req.res.locals = user);
+      req.res.locals = user;
 
       next();
     } catch (error) {

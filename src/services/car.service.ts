@@ -12,7 +12,7 @@ class CarService {
     return await carRepository.createCar(dto);
   }
 
-  public async updateCar(carsId: string, dto: ICar): Promise<ICar | null> {
+  public async updateCar(carsId: string, dto: ICar): Promise<ICar> {
     return await carRepository.updateCar(carsId, dto);
   }
 

@@ -8,7 +8,7 @@ class CarController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<ICar[]> | void> {
+  ): Promise<Response<ICar[]>> {
     try {
       const cars = await carService.getAll();
 

@@ -8,7 +8,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<void> | void> {
+  ): Promise<Response<void>> {
     try {
       await authService.register(req.body);
 
@@ -22,7 +22,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<ITokensPair> | void> {
+  ): Promise<Response<ITokensPair>> {
     try {
       const tokensPair = await authService.login(req.body);
 
@@ -36,7 +36,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<ITokensPair> | void> {
+  ): Promise<Response<ITokensPair>> {
     try {
       const tokenPayload: ITokenPayload = req.res?.locals.tokenPayload;
       const refreshToken: string = req.res?.locals.refreshToken;
@@ -53,7 +53,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<void> | void> {
+  ): Promise<Response<void>> {
     try {
       const accessToken = req.res?.locals.accessToken as string;
 
@@ -69,7 +69,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<void> | void> {
+  ): Promise<Response<void>> {
     try {
       const tokenPayload: ITokenPayload = req.res?.locals.tokenPayload;
 
@@ -85,7 +85,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<void> | void> {
+  ): Promise<Response<void>> {
     try {
       const actionToken = req.query.actionToken as string;
       await authService.activate(actionToken);
@@ -100,7 +100,7 @@ class AuthController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response<void> | void> {
+  ): Promise<Response<void>> {
     try {
       const tokenPayload: ITokenPayload = req.res?.locals.tokenPayload;
 

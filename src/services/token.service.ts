@@ -19,7 +19,7 @@ class TokenService {
     };
   }
 
-  public checkToken(token: string, type: ITokenType): ITokenPayload | void {
+  public checkToken(token: string, type: ITokenType): ITokenPayload {
     try {
       const _type = {
         access: {

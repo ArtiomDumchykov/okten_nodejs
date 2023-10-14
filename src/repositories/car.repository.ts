@@ -6,7 +6,7 @@ class CarRepository {
     return await Car.find();
   }
 
-  public async findById(id: string): Promise<ICar | null> {
+  public async findById(id: string): Promise<ICar> {
     return await Car.findById(id);
   }
 
@@ -14,7 +14,7 @@ class CarRepository {
     return await Car.create(dto);
   }
 
-  public async updateCar(carsId: string, dto: ICar): Promise<ICar | null> {
+  public async updateCar(carsId: string, dto: ICar): Promise<ICar> {
     return await Car.findByIdAndUpdate(carsId, dto, {
       returnDocument: "after",
     });

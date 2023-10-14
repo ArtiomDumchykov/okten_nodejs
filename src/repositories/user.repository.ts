@@ -9,13 +9,11 @@ class UserRepository {
     return await User.find();
   }
 
-  public async getOneByParams(
-    params: FilterQuery<IUser>,
-  ): Promise<IUser | null> {
+  public async getOneByParams(params: FilterQuery<IUser>): Promise<IUser> {
     return await User.findOne(params);
   }
 
-  public async findById(id: string): Promise<IUser | null> {
+  public async findById(id: string): Promise<IUser> {
     return await User.findById(id);
   }
 
@@ -23,10 +21,7 @@ class UserRepository {
     return await User.create(dto);
   }
 
-  public async updateUser(
-    userId: string,
-    dto: Partial<IUser>,
-  ): Promise<IUser | null> {
+  public async updateUser(userId: string, dto: Partial<IUser>): Promise<IUser> {
     return await User.findByIdAndUpdate(userId, dto, {
       returnDocument: "after",
     });

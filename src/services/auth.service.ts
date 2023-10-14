@@ -19,39 +19,39 @@ import { tokenService } from "./token.service";
 class AuthService {
   public async register(dto: IUser): Promise<void> {
     try {
-      if (dto.password) {
-        const hashPassword = await passwordService.hash(dto.password);
-
-        const user = await userRepository.register({
-          ...dto,
-          password: hashPassword,
-        });
-
-        const actionToken = tokenService.generateActionToken({
-          userId: user._id,
-          name: user.name,
-        });
-
-        await actionTokenRepository.create({
-          token: actionToken,
-          type: EActionTokenType.activate,
-          _userId: user._id,
-        });
-
-        await emailService.sendMail(dto.email, EEmailAction.REGISTER, {
-          name: dto.name,
-          actionToken,
-        });
-      } else {
+      // Нужно ли это?
+      if (!dto.password) {
         throw new ApiError("Password is undefined", 404);
       }
+      const hashPassword = await passwordService.hash(dto.password);
+
+      const user = await userRepository.register({
+        ...dto,
+        password: hashPassword,
+      });
+
+      const actionToken = tokenService.generateActionToken({
+        userId: user._id,
+        name: user.name,
+      });
+
+      await actionTokenRepository.create({
+        token: actionToken,
+        type: EActionTokenType.activate,
+        _userId: user._id,
+      });
+
+      await emailService.sendMail(dto.email, EEmailAction.REGISTER, {
+        name: dto.name,
+        actionToken,
+      });
     } catch (error) {
       const err = error as IError;
       throw new ApiError(err.message, err.status);
     }
   }
 
-  public async login(dto: IUserCredentials): Promise<ITokensPair | void> {
+  public async login(dto: IUserCredentials): Promise<ITokensPair> {
     try {
       const user = await userRepository.getOneByParams({ email: dto.email });
 
@@ -85,7 +85,7 @@ class AuthService {
   public async refresh(
     payload: ITokenPayload,
     refreshToken: string,
-  ): Promise<ITokensPair | void> {
+  ): Promise<ITokensPair> {
     try {
       const tokensPair = tokenService.generateTokenPair({
         userId: payload.userId,
@@ -147,7 +147,7 @@ class AuthService {
   public async sendActivationToken(payload: ITokenPayload): Promise<void> {
     try {
       const user = await userRepository.findById(payload.userId.toString());
-      console.log(user?.status);
+
       if (user?.status !== EUserStatus.inactive) {
         throw new ApiError("User can't be activated", 403);
       }

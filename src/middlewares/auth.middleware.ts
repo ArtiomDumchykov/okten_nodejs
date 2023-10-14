@@ -56,10 +56,9 @@ class AuthMiddleware {
         throw new ApiError("Token not valid!", 401);
       }
 
-      if (req.res) {
-        req.res.locals.tokenPayload = payload;
-        req.res.locals.accessToken = accessToken;
-      }
+      req.res.locals.tokenPayload = payload;
+      req.res.locals.accessToken = accessToken;
+
       next();
     } catch (e) {
       next(e);
@@ -86,10 +85,8 @@ class AuthMiddleware {
         throw new ApiError("Token not valid!", 401);
       }
 
-      if (req.res) {
-        req.res.locals.tokenPayload = payload;
-        req.res.locals.refreshToken = refreshToken;
-      }
+      req.res.locals.tokenPayload = payload;
+      req.res.locals.refreshToken = refreshToken;
 
       next();
     } catch (e) {

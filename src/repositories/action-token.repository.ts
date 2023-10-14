@@ -11,7 +11,7 @@ export class ActionTokenRepository {
 
   public async findOne(
     params: FilterQuery<IActionToken>,
-  ): Promise<IActionToken | null> {
+  ): Promise<IActionToken> {
     return await ActionToken.findOne(params);
   }
 
