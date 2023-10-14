@@ -199,7 +199,9 @@ class AuthService {
           actionToken,
           name: user.name,
         }),
+        // this.logoutAll(user._id), // нужна ли эта строка?
       ]);
+      // this.logoutAll(user._id), // или необходимо вызвать это после PromiseAll?
     } catch (error) {
       const err = error as IError;
       throw new ApiError(err.message, err.status);
