@@ -26,7 +26,6 @@ router.post(
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
-  // authMiddleware.checkAuthToken("refresh"),
   authController.refresh,
 );
 
