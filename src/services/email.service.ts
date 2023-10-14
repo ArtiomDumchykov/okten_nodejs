@@ -44,14 +44,6 @@ class EmailService {
 
     this.transporter.use("compile", hbs(hbsOptions));
   }
-  // public async sendMail(email: string) {
-  //     return await this.transporter.sendMail({
-  //         to: email,
-  //         subject: "Subject",
-  //         html: `
-  //         <div>Hello World !!!</div>`,
-  //     })
-  // }
 
   public async sendMail(
     email: string | string[],
