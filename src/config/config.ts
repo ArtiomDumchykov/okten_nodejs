@@ -23,6 +23,6 @@ export const configs = {
   },
   emailAuth: {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || "test@gmail.com",
-    NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || "test1234567",
+    NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || "test12345",
   },
 };
