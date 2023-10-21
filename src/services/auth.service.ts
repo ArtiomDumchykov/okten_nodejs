@@ -273,6 +273,7 @@ class AuthService {
           actionToken,
           name: user.name,
         }),
+        this.logoutAll(userId.toString()),
       ]);
     } catch (error) {
       const err = error as IError;
