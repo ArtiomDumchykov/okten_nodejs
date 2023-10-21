@@ -57,16 +57,25 @@ class AuthService {
 
   public async login(dto: IUserCredentials): Promise<ITokensPair> {
     try {
-      const user = await userRepository.getOneByParams({ email: dto.email });
+      console.log(dto.email);
+      const user = await userRepository.getOneByParams({ email: dto.email }, [
+        "password",
+      ]);
 
       if (!user) {
         throw new ApiError("Invalid credentials provided", 401);
       }
 
+      console.log(123);
+      console.log(dto.password, user.password);
+
       const isMatched = await passwordService.compare(
         dto.password,
         user.password,
       );
+
+      console.log(isMatched);
+      console.log(1234);
 
       if (!isMatched) {
         throw new ApiError("Invalid credentials provided", 401);
