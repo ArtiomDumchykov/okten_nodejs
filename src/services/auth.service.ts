@@ -25,14 +25,11 @@ class AuthService {
         throw new ApiError("Password is undefined", 404);
       }
       const hashPassword = await passwordService.hash(dto.password);
-      console.log(hashPassword);
 
       const user = await userRepository.register({
         ...dto,
         password: hashPassword,
       });
-
-      console.log(user);
 
       const actionToken = tokenService.generateActionToken(
         {

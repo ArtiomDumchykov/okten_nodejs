@@ -52,7 +52,13 @@ class UserController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const user = await userService.updateUser(req.params.userId, req.body);
+      const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+
+      const user = await userService.updateUser(
+        req.params.userId,
+        req.body,
+        userId.toString(),
+      );
 
       res.status(201).json(user);
     } catch (error) {
