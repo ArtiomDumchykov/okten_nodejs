@@ -15,6 +15,10 @@ class UserService {
   public async updateUser(userId: string, dto: Partial<IUser>): Promise<IUser> {
     return await userRepository.updateUser(userId, dto);
   }
+
+  public async getMe(userId: string): Promise<IUser> {
+    return await userRepository.findById(userId);
+  }
 }
 
 export const userService = new UserService();

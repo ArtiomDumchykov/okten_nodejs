@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { userService } from "../services";
-import { IUser } from "../types";
+import { ITokenPayload, IUser } from "../types";
 
 class UserController {
   public async getAll(
@@ -55,6 +55,18 @@ class UserController {
       const user = await userService.updateUser(req.params.userId, req.body);
 
       res.status(201).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+
+      const user = await userService.getMe(userId.toString());
+
+      res.json(user);
     } catch (error) {
       next(error);
     }
