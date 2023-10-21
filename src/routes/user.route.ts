@@ -33,7 +33,7 @@ router.put(
   authMiddleware.checkAccessToken,
   // authMiddleware.checkAuthToken("access"),
   commonMiddleware.isIdValid("userId"),
-  userMiddleware.getByIdOrThrow,
+  // userMiddleware.getByIdOrThrow,
   commonMiddleware.isBodyValid(UserValidator.update),
   userController.updateUser,
 );
