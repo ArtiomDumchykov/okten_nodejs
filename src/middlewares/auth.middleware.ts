@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 
 // import { ITokenType } from '../types';
 import { ApiError } from "../errors";
-import { tokenRepository } from "../repositories";
+import { actionTokenRepository, tokenRepository } from "../repositories";
 import { tokenService } from "../services";
+import { IActionTokenType } from "../types";
 
 class AuthMiddleware {
   // public  checkAuthToken(tokenType: ITokenType) {
@@ -92,6 +93,37 @@ class AuthMiddleware {
     } catch (e) {
       next(e);
     }
+  }
+
+  public checkActionToken(action: IActionTokenType) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        let token = "";
+
+        switch (action) {
+          case "activate":
+            token = req.query.actionToken as string;
+            break;
+          case "forgotPassword":
+            token = req.params.token as string;
+            break;
+          default:
+            throw new ApiError("Invalid action type", 400);
+        }
+
+        const entity = await actionTokenRepository.findOne({
+          token,
+        });
+
+        if (!entity) {
+          throw new ApiError("Not valid token", 400);
+        }
+
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
   }
 }
 

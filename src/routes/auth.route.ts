@@ -43,7 +43,11 @@ router.post(
   authController.sendActivationToken,
 );
 
-router.put("/activate", authController.activate);
+router.put(
+  "/activate",
+  authMiddleware.checkActionToken("activate"),
+  authController.activate,
+);
 
 router.post(
   "/forgot",
@@ -55,6 +59,7 @@ router.post(
 router.put(
   "/forgot/:token",
   commonMiddleware.isBodyValid(UserValidator.setForgotPassword),
+  authMiddleware.checkActionToken("forgotPassword"),
   authController.setForgotPassword,
 );
 

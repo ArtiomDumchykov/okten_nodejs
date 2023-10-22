@@ -134,11 +134,12 @@ class AuthService {
         token,
         EActionTokenType.activate,
       );
-      const entity = await actionTokenRepository.findOne({ token });
 
-      if (!entity) {
-        throw new ApiError("Not valid token", 400);
-      }
+      // const entity = await actionTokenRepository.findOne({ token });
+
+      // if (!entity) {
+      //   throw new ApiError("Not valid token", 400);
+      // }
 
       await Promise.all([
         actionTokenRepository.deleteManyByUserIdType(
@@ -218,14 +219,6 @@ class AuthService {
         actionToken,
         EActionTokenType.forgotPassword,
       );
-
-      const entity = await actionTokenRepository.findOne({
-        token: actionToken,
-      });
-
-      if (!entity) {
-        throw new ApiError("Not valid token", 400);
-      }
 
       const newHashedPassword = await passwordService.hash(newPassword);
 

@@ -23,6 +23,7 @@ export interface IActionTokenDocument extends Document {
 }
 
 export type ITokenType = "access" | "refresh";
+export type IActionTokenType = keyof typeof EActionTokenType;
 
 export interface IActionToken
   extends Pick<IActionTokenDocument, "token" | "type" | "_userId"> {}
