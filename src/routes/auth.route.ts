@@ -45,7 +45,7 @@ router.post(
 
 router.put(
   "/activate",
-  authMiddleware.checkActionToken("activate"),
+  authMiddleware.iskActionToken("activate"),
   authController.activate,
 );
 
@@ -59,7 +59,7 @@ router.post(
 router.put(
   "/forgot/:token",
   commonMiddleware.isBodyValid(UserValidator.setForgotPassword),
-  authMiddleware.checkActionToken("forgotPassword"),
+  authMiddleware.iskActionToken("forgotPassword"),
   authController.setForgotPassword,
 );
 

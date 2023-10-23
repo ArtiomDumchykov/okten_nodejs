@@ -95,7 +95,7 @@ class AuthMiddleware {
     }
   }
 
-  public checkActionToken(action: IActionTokenType) {
+  public iskActionToken(action: IActionTokenType) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
         let token = "";
